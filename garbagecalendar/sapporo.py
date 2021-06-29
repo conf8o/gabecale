@@ -20,7 +20,8 @@ class SapporoGarbageCalendar:
             self.row = row
 
         def __getitem__(self, area: str) -> str:
-            return SAPPORO_GARBAGE_TYPE[self.row[area]]
+            item = self.row[area]
+            return SAPPORO_GARBAGE_TYPE.get(item, item)
 
         def __str__(self):
             return str(self.row)
