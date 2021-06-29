@@ -15,19 +15,19 @@ SAPPORO_GARBAGE_TYPE = {
 }
 
 class SapporoGarbageCalendar:
-    def __init__(self):
-        self.csv = pd.read_csv(CSV_URL, dtype=str).set_index("日付")
-
-    def __getitem__(self, d: date):
-        d = date_str(d)
-        return SapporoGarbageCalendar.Row(self.csv.loc[d, :])
-
     class Row:
         def __init__(self, row: pd.Series):
             self.row = row
 
-        def __getitem__(self, area: str):
+        def __getitem__(self, area: str) -> str:
             return SAPPORO_GARBAGE_TYPE[self.row[area]]
 
         def __str__(self):
             return str(self.row)
+    
+    def __init__(self):
+        self.csv = pd.read_csv(CSV_URL, dtype=str).set_index("日付")
+
+    def __getitem__(self, d: date) -> Row:
+        d = date_str(d)
+        return SapporoGarbageCalendar.Row(self.csv.loc[d, :])

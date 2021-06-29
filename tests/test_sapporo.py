@@ -1,7 +1,7 @@
 from datetime import date
 import pandas as pd
 
-from garbagecalendar.sapporo import SAPPORO_GARBAGE_TYPE, SapporoGarbageCalendar
+from garbagecalendar.sapporo import SapporoGarbageCalendar
 
 
 def test_init():
@@ -11,12 +11,12 @@ def test_init():
 def test_index():
     calendar = SapporoGarbageCalendar()
     d = date.today()
-    t = calendar[d].row["豊平区②"]
+    r = calendar[d]
 
-    if pd.isna(t):
+    if pd.isna(r):
         print("NaN test")
     else:
+        t = r["豊平区②"]
         print(t)
-        print(SAPPORO_GARBAGE_TYPE[t])
-        assert SAPPORO_GARBAGE_TYPE[t]
+        assert t is not None
 
