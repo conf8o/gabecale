@@ -3,23 +3,22 @@ from typing import Optional
 
 from fastapi import FastAPI
 
-from garbagecalendar.sapporo import SapporoGarbageCalendar, SAPPORO_GARBAGE_TYPE
+from garbagecalendar.pool import Pool
 
 
 app = FastAPI()
 
-@app.get("/sapporo/type")
-async def sapporo_type():
-    return SAPPORO_GARBAGE_TYPE
+@app.get("/{id}/today")
+async def sapporo_today(id: str, location: Optional[str]=None):
+    if Pool.expired:
+        Pool.update(id)
 
-@app.get("/sapporo/today")
-async def sapporo_today(location: Optional[str]=None):
-    sapporo_garbage_calendar = SapporoGarbageCalendar()
-    sapporo_today_garbage: SapporoGarbageCalendar.Row = sapporo_garbage_calendar[date.today()]
+    calendar = Pool.calendar(id)
+    today_garbage = calendar[date.today()]
 
     if location is None:
-        return sapporo_today_garbage.row
+        return today_garbage.row
     else:
-        return {"曜日": sapporo_today_garbage["曜日"],
-                location : sapporo_today_garbage[location]}
+        return {"曜日": today_garbage["曜日"],
+                location : today_garbage[location]}
 
