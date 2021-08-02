@@ -9,7 +9,7 @@ from garbagecalendar.pool import Pool
 app = FastAPI()
 
 @app.get("/{id}/today")
-async def sapporo_today(id: str, location: Optional[str]=None):
+async def today(id: str, location: Optional[str]=None):
     if Pool.expired:
         Pool.update(id)
 
