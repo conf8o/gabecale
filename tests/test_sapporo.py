@@ -1,17 +1,17 @@
 from datetime import date
 import pandas as pd
 
-from garbagecalendar.sapporo import SapporoGarbageCalendar, resource_urls
+from garbagecalendar.sapporo import SapporoGarbageCalendar, search_resource_url
 
 
-def test_resouce_urls():
-    urls = resource_urls()
-    assert 2 == len(urls)
-    assert all(type(url) == str for url in urls)
+def test_search_resouce_urls():
+    url = search_resource_url()
+    assert url.garbage_type is not None
+    assert url.last_calendar is not None
 
 def test_init():
     calendar = SapporoGarbageCalendar()
-    assert 365 == len(calendar.csv)
+    assert 365 == len(calendar.calendar)
 
 def test_index():
     calendar = SapporoGarbageCalendar()
