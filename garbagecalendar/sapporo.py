@@ -1,9 +1,22 @@
+import bs4
 from datetime import date
 import pandas as pd
+import requests
 
 from .utils import date_str
 
-CSV_URL = "https://ckan.pf-sapporo.jp/dataset/281fc9c2-7ca5-4aed-a728-0b588e509686/resource/3e7862c1-c9df-4b21-b6cf-aca9b89e60c6/download/garvagecollectioncalendar202010.csv"
+
+def csv_url() -> str:
+    soup = bs4.BeautifulSoup(
+        requests.get("https://ckan.pf-sapporo.jp/dataset/garbage_collection_calendar").text,
+        "lxml"
+    )
+    last_resource: bs4.element.Tag = soup.find_all("li", class_="resource-item")[-1]
+    download_url = last_resource.find("a", class_="resource-url-analytics")["href"]
+    
+    return download_url
+
+CSV_URL = csv_url()
 
 SAPPORO_GARBAGE_TYPE = {
     "1": "燃やせるゴミ",

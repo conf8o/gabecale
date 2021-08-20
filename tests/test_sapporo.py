@@ -1,8 +1,11 @@
 from datetime import date
 import pandas as pd
 
-from garbagecalendar.sapporo import SapporoGarbageCalendar
+from garbagecalendar.sapporo import SapporoGarbageCalendar, csv_url
 
+
+def test_csv_url():
+    assert csv_url() is not None
 
 def test_init():
     calendar = SapporoGarbageCalendar()
@@ -16,7 +19,7 @@ def test_index():
     if pd.isna(r):
         print("NaN test")
     else:
-        t = r["豊平区②"]
+        t = r["中央区②"]
         print(t)
         assert t is not None
 

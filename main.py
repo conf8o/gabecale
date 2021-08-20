@@ -10,7 +10,7 @@ app = FastAPI()
 
 @app.get("/{id}/today")
 async def today(id: str, location: Optional[str]=None):
-    if Pool.expired:
+    if Pool.expired():
         Pool.update(id)
 
     calendar = Pool.calendar(id)
