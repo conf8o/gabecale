@@ -1,11 +1,14 @@
 from datetime import date
 import pandas as pd
 
-from garbagecalendar.sapporo import SapporoGarbageCalendar, csv_url
+from garbagecalendar.sapporo import SapporoGarbageCalendar, calendar_url, garbase_type_url
 
 
 def test_csv_url():
-    assert csv_url() is not None
+    assert calendar_url() is not None
+
+def test_garbage_type():
+    assert garbase_type_url is not None
 
 def test_init():
     calendar = SapporoGarbageCalendar()
