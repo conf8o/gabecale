@@ -7,13 +7,14 @@ from garbagecalendar.pool import Pool
 
 
 app = FastAPI()
+pool = Pool.instance()
 
 @app.get("/{id}/today")
 async def today(id: str, location: Optional[str]=None):
-    if Pool.expired():
-        Pool.update(id)
+    if pool.expired():
+        pool.reset(id)
 
-    calendar = Pool.calendar(id)
+    calendar = pool.calendar(id)
     today_garbage = calendar[date.today()]
 
     if location is None:
